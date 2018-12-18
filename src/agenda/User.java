@@ -1,4 +1,4 @@
-package Agenda;
+package agenda;
 
 public class User {
 	private String m_name;

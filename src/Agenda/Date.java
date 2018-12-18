@@ -1,4 +1,4 @@
-package Agenda;
+package agenda;
 
 
 public class Date {

@@ -1,4 +1,4 @@
-package Agenda;
+package agenda;
 
 import java.util.Vector;
 
@@ -77,6 +77,6 @@ public class Meeting {
 	}
 	
 	public boolean isParticipator(String userName) {
-		participators.contains(userName);
+		return participators.contains(userName);
 	}
 }
