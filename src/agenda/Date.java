@@ -102,7 +102,7 @@ public class Date {
 	public void setMinute(int t_minute) {
 		m_minute = t_minute;
 	}
-	public boolean isValid(Date t_date) {
+	public static boolean isValid(Date t_date) {
 		if(t_date.m_year < 1000 || t_date.m_year > 9999) return false;
 		if(t_date.m_month < 0 || t_date.m_month > 12) return false;
 		if(isLeap(t_date.m_year)){
@@ -117,11 +117,11 @@ public class Date {
 		if(t_date.m_minute < 0 || t_date.m_minute >= 60) return false;
 		return true;
 	}
-	public Date stringToDate(String t_dateString) {
+	static public Date stringToDate(String t_dateString) {
 		Date date = new Date(t_dateString);
 		return date;
 	}
-	public String dateToString(Date t_date) {
+	static public String dateToString(Date t_date) {
 		if (!isValid(t_date)) {
 			String strDate = "0000-00-00/00:00";
 			return strDate;

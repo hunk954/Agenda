@@ -19,6 +19,10 @@ public class User {
 		m_email = t_user.m_email;
 		m_phone = t_user.m_phone;
 	}
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getName() {
 		return m_name;
 	}

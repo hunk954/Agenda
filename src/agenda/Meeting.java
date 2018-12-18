@@ -5,8 +5,8 @@ import java.util.Vector;
 public class Meeting {
 	private String sponsor;
 	private Vector<String> participators;
-	private Date startDate;
-	private Date endDate;
+	private Date startDate = new Date();
+	private Date endDate = new Date();
 	private String title;
 	
 	public Meeting(String sponsor, 
@@ -28,6 +28,10 @@ public class Meeting {
 		setTitle(meeting.getTitle());
 	}
 	
+	public Meeting() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getSponsor() {
 		return sponsor;
 	}
