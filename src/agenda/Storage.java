@@ -48,12 +48,14 @@ public class Storage {
 			while ((line = reader.readLine()) != null) {
 				User newUser = new User();
 				String item[] = line.split(",");
-				newUser.setName(item[0]);
-				newUser.setPassword(item[1]);
-				newUser.setEmail(item[2]);
-				newUser.setPhone(item[3]);
+				newUser.setName(item[0].substring(1, item[0].length()-1));
+				newUser.setPassword(item[1].substring(1, item[1].length()-1));
+				newUser.setEmail(item[2].substring(1, item[2].length()-1));
+				newUser.setPhone(item[3].substring(1, item[3].length()-1));
 				userList.add(newUser);
 			}
+			reader.close();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -69,18 +71,19 @@ public class Storage {
 			while ((line = reader.readLine()) != null) {
 				Meeting newMeeting = new Meeting();
 				String item[] = line.split(",");
-				String[] p = item[1].split("&");
+				String[] p = item[1].substring(1, item[1].length()-1).split("&");
 				Vector<String> pVector = new Vector<String>();
 				for (int i = 0; i < p.length; i++)
 					pVector.add(p[i]);
 				
-				newMeeting.setSponsor(item[0]);
+				newMeeting.setSponsor(item[0].substring(1, item[0].length()-1));
 				newMeeting.setParticipators(pVector);
-				newMeeting.setStartDate(Date.stringToDate(item[2]));
-				newMeeting.setEndDate(Date.stringToDate(item[3]));
-				newMeeting.setTitle(item[4]);
+				newMeeting.setStartDate(Date.stringToDate(item[2].substring(1, item[2].length()-1)));
+				newMeeting.setEndDate(Date.stringToDate(item[3].substring(1, item[3].length()-1)));
+				newMeeting.setTitle(item[4].substring(1, item[4].length()-1));
 				meetingList.add(newMeeting);
 			}
+			reader.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -102,7 +105,7 @@ public class Storage {
 			File csv = new File(userPath);
 			judeFileExists(csv);
 			csv.setWritable(true);
-			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
 			Iterator<User> iter = userList.iterator();
 			bw.write("\"Name\"" + "," + "\"Password\"" + "," + "\"Email\"" + "," + "\"Phone\"");
 			bw.newLine();
@@ -121,20 +124,20 @@ public class Storage {
 			File csv = new File(meetingPath);
 			judeFileExists(csv);
 			csv.setWritable(true);
-			BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
 			Iterator<Meeting> iter = meetingList.iterator();
 			bw.write("\"Sponsor\"" + "," + "\"Participators\"" + "," + "\"Start date\"" + "," + "\"End date\"" + "," + "\"Title\"");
 			bw.newLine();
 			while (iter.hasNext()) {
 				Meeting meeting = iter.next();
-				String participators = null;
+				String participators = new String();
 				for (int i = 0; i < meeting.getParticipators().size(); i++) {
 					participators += meeting.getParticipators().get(i);
 					if (i != meeting.getParticipators().size()-1)
 						participators += "&";
 				}
 				bw.write("\"" + meeting.getSponsor() + "\"" + "," + "\"" + participators + "\"" + "," + 
-						"\"" + meeting.getStartDate() + "\"" + "," + "\"" + meeting.getEndDate() + "\"" + "," + "\"" + meeting.getTitle() + "\"");
+						"\"" + Date.dateToString(meeting.getStartDate()) + "\"" + "," + "\"" + Date.dateToString(meeting.getEndDate()) + "\"" + "," + "\"" + meeting.getTitle() + "\"");
 				bw.newLine();
 			}
 			bw.close();	
@@ -232,8 +235,13 @@ public class Storage {
 	
 	public static void main(String[] args) {
 		Storage test = new Storage();
+		Vector<String> p = new Vector<String>();
+		p.add("sb");
+		p.add("sb2");
 		User test1 = new User("sb", "123", "123", "123");
-		test.createUser(test1);
+		Meeting mtest = new Meeting("sb",p,new Date(1999,1,2,10,10),new Date(1999,1,2,10,10),"12");
+//		test.createUser(test1);
+//		test.createMeeting(mtest);
 		test.finalize();
 	}
 }
