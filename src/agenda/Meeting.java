@@ -57,7 +57,7 @@ public class Meeting {
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		this.endDate.assign(endDate);
 	}
 
 	public String getTitle() {
