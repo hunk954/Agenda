@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,18 +15,18 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Login {
-	private JFrame  jFrame = new JFrame("会议管理系统");
+	private JFrame  jFrame = new JFrame("会议管理系统-登陆");
 	private Container container = jFrame.getContentPane();
-	private JLabel user = new JLabel("用户名");
-	private JTextField username = new JTextField();
+	private JLabel username = new JLabel("用户名");
+	private JTextField l_username = new JTextField();
 	private JLabel password = new JLabel("密码");
-	private JPasswordField passwordfield = new JPasswordField();
-	private JButton okbtn = new JButton("注册");
+	private JPasswordField l_password = new JPasswordField();
+	private JButton registerbtn = new JButton("注册");
 	private JButton loginbtn = new JButton("登陆");
 	public Login() {
 		jFrame.setSize(400,400);
 		jFrame.setLocationRelativeTo(null);
-		container.setLayout(new BorderLayout());
+		container.setLayout(new BorderLayout());//无边界布局
 		//设置按右下角x后关闭窗口
 		jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
 		//初始化，窗体内放其他的控件
@@ -42,25 +44,42 @@ public class Login {
 		//输入
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout(null);
-		user.setBounds(60, 40, 100, 20);
+		username.setBounds(60, 40, 100, 20);
+		username.setFont(new Font("黑体",Font.PLAIN, 20));//PLAIN表示粗细
 		password.setBounds(60, 80, 100, 20);
-		fieldPanel.add(user);
-		fieldPanel.add(password);
-		user.setFont(new Font("黑体",Font.PLAIN, 20));
-		username.setBounds(140, 40, 120, 20);
-		passwordfield.setBounds(140, 80, 120, 20);
 		password.setFont(new Font("黑体",Font.PLAIN, 20));
 		fieldPanel.add(username);
-		fieldPanel.add(passwordfield);
+		fieldPanel.add(password);
+		
+		l_username.setBounds(140, 40, 120, 30);
+		l_password.setBounds(140, 80, 120, 30);
+		fieldPanel.add(l_username);
+		fieldPanel.add(l_password);
 		container.add(fieldPanel,"Center");
 		
+		//按钮
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		buttonPanel.add(okbtn);
+		registerbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jFrame.setEnabled(false);
+				new Register(jFrame);
+			}
+		});
+		loginbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				jFrame.setVisible(false);
+				new Account(jFrame);
+				
+			}
+		});
+		buttonPanel.add(registerbtn);
 		buttonPanel.add(loginbtn);
 		container.add(buttonPanel,"South");
-	}
-	public  static void main(String args[]) {
-		new Login();
 	}
 }
