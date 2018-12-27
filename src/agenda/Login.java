@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import javax.swing.text.JTextComponent;
 
 public class Login {
 	private JFrame  jFrame = new JFrame("会议管理系统-登陆");
@@ -62,6 +63,31 @@ public class Login {
 		
 		l_username.setBounds(140, 40, 120, 30);
 		l_password.setBounds(140, 80, 120, 30);
+		
+		l_username.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				String userNameRegex = "^[a-zA-Z][a-zA-Z0-9_]{2,9}$";
+				if (!l_username.getText().matches(userNameRegex) && !l_username.getText().equals("")) {
+					try {
+						throw new Exception("用户名：3~10位，必须以英文字母开头");
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+						// TODO Auto-generated catch block
+					}
+				}	
+				
+			}
+			
+		});
+		
 		//添加键盘事件监听
 		l_username.addKeyListener(new KeyListener() {
 			
@@ -86,11 +112,18 @@ public class Login {
 						userName = l_username.getText();
 						userPassword = String.valueOf(l_password.getPassword());
 						l_password.setText("");
+						if (userName.equals(""))
+							throw new Exception("你还没有输入用户名");
+						if (userPassword.equals(""))
+							throw new Exception("你还没有输入密码");
 						service.userLogIn(userName, userPassword);
 						jFrame.setVisible(false);
 						new Account(jFrame,service, userName, userPassword);	
 					} catch(Exception e1) {
-						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+						if (e1.getMessage().equals("你还没有输入用户名") || e1.getMessage().equals("你还没有输入密码"))
+							JOptionPane.showMessageDialog(null, e1.getMessage());
+						else
+							JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
 //						System.out.println(e1.getMessage());
 					}
 				}
@@ -117,12 +150,19 @@ public class Login {
 						userName = l_username.getText();
 						userPassword = String.valueOf(l_password.getPassword());
 						l_password.setText("");
+						if (userName.equals(""))
+							throw new Exception("你还没有输入用户名");
+						if (userPassword.equals(""))
+							throw new Exception("你还没有输入密码");
 						service.userLogIn(userName, userPassword);
 						jFrame.setVisible(false);
 						new Account(jFrame,service, userName, userPassword);	
 					} catch(Exception e1) {
-						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
-						System.out.println(e1.getMessage());
+						if (e1.getMessage().equals("你还没有输入用户名") || e1.getMessage().equals("你还没有输入密码"))
+							JOptionPane.showMessageDialog(null, e1.getMessage());
+						else
+							JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+//						System.out.println(e1.getMessage());
 					}
 				}
 			}
@@ -151,14 +191,20 @@ public class Login {
 				try {
 					userName = l_username.getText();
 					userPassword = String.valueOf(l_password.getPassword());
+					if (userName.equals(""))
+						throw new Exception("你还没有输入用户名");
+					if (userPassword.equals(""))
+						throw new Exception("你还没有输入密码");
 					service.userLogIn(userName, userPassword);
 					jFrame.setVisible(false);
 					new Account(jFrame,service, userName, userPassword);	
 				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
-					System.out.println(e1.getMessage());
+					if (e1.getMessage().equals("你还没有输入用户名") || e1.getMessage().equals("你还没有输入密码"))
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					else
+						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+//					System.out.println(e1.getMessage());
 				}
-				
 				
 			}
 		});
