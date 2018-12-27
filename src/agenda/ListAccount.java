@@ -41,7 +41,7 @@ public class ListAccount {
 		JPanel accountPane = new JPanel();
 		accountPane.setLayout(new FlowLayout());
 		Object []columnNames = {"用户名", "手机号", "邮箱"};
-		System.out.println(users.size());
+//		System.out.println(users.size());
 		Object [][]userDetails = new Object[users.size()][3];
 		for(int i = 0; i < users.size(); i++) {
 			userDetails[i][0] = users.get(i).getName();
