@@ -79,7 +79,7 @@ public class MeetingManage {
 				// TODO Auto-generated method stub
 //				System.out.println("模拟列出所有的会议");
 				ArrayList<Meeting> meetings = service.listAllMeetings(userName);
-				new ListMeeting(parentFrame, meetings);
+				new ListMeeting(jFrame, meetings);
 				jFrame.setVisible(false);
 			}
 		});

@@ -91,7 +91,7 @@ public class Login {
 						new Account(jFrame,service, userName, userPassword);	
 					} catch(Exception e1) {
 						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
-						System.out.println(e1.getMessage());
+//						System.out.println(e1.getMessage());
 					}
 				}
 			}

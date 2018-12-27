@@ -40,7 +40,7 @@ public class ListMeeting {
 		JPanel accountPane = new JPanel();
 		accountPane.setLayout(new FlowLayout());
 		Object []columnNames = {"会议发起人", "参与者", "起始时间", "结束时间"};
-		System.out.println(meetings.size());
+//		System.out.println(meetings.size());
 		Object [][]meetingDetails = new Object[meetings.size()][4];
 		for(int i = 0; i < meetings.size(); i++) {
 			meetingDetails[i][0] = meetings.get(i).getSponsor();

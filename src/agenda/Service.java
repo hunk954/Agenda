@@ -45,14 +45,16 @@ public class Service {
 			throw new Exception("用户已存在");
 		
 		boolean isUnique = storage.queryUser((User user) ->{
-			if (user.getEmail().equals(email))
+			if (user.getEmail().equals(email) && !user.getEmail().equals("")) {
+//				System.out.println(user.getEmail().equals(""));
 				return true;
+			}	
 			return false;
 		}).isEmpty();
 		if (!isUnique) throw new Exception("邮箱已存在");
 		
 		isUnique = storage.queryUser((User user) ->{
-			if (user.getPhone().equals(phone))
+			if (user.getPhone().equals(phone) && !phone.equals(""))
 				return true;
 			return false;
 		}).isEmpty();
