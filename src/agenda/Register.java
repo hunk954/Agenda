@@ -48,20 +48,22 @@ public class Register {
 		
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout(null);
-		userlabel.setBounds(60,40,100,20);
+		userlabel.setBounds(40,40,100,20);
 		userlabel.setFont(new Font("黑体", Font.PLAIN, 20));
-		passwordlabel.setBounds(60,80,100,20);
+		passwordlabel.setBounds(40,80,100,20);
 		passwordlabel.setFont(new Font("黑体", Font.PLAIN, 20));
-		phonelabel.setBounds(60, 120, 100, 20);
+		phonelabel.setBounds(40, 120, 100, 20);
 		phonelabel.setFont(new Font("黑体", Font.PLAIN, 20));
-		emaillabel.setBounds(60,160,100,20);
+		emaillabel.setBounds(40,160,100,20);
 		emaillabel.setFont(new Font("黑体", Font.PLAIN, 20));
 		fieldPanel.add(userlabel);
 		fieldPanel.add(passwordlabel);
 		fieldPanel.add(phonelabel);
 		fieldPanel.add(emaillabel);
 		
-		r_user.setBounds(140, 40, 120, 30);
+		r_user.setBounds(140, 40, 200, 30);
+		r_user.setText(" 3~10位，必须以英文字母开头");
+		r_user.setForeground(Color.gray);
 		r_user.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -98,7 +100,10 @@ public class Register {
 				}
 			}
 		});
-		r_password.setBounds(140,80,120,30);
+		r_password.setBounds(140,80,200,30);
+		r_password.setEchoChar((char)0);
+		r_password.setText(" 6~12位，区分大小写");
+		r_password.setForeground(Color.gray);
 		r_password.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -135,7 +140,9 @@ public class Register {
 				}
 			}
 		});
-		r_phone.setBounds(140,120,120,30);
+		r_phone.setBounds(140,120,200,30);
+		r_phone.setText(" 11位数字，不能以0开头");
+		r_phone.setForeground(Color.gray);
 		r_phone.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -172,7 +179,9 @@ public class Register {
 				}
 			}
 		});
-		r_email.setBounds(140,160,120,30);
+		r_email.setBounds(140,160,200,30);
+		r_email.setText(" 输入合法邮箱");
+		r_email.setForeground(Color.gray);
 		r_email.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -280,3 +289,4 @@ class buttonListen implements ActionListener{
 		}
 	}
 }
+
