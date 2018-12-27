@@ -1,5 +1,6 @@
 package agenda;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
 public class Date {
 	private int m_year;
@@ -160,7 +161,7 @@ public class Date {
 			return strDate;
 		}
 	}
-	Date assign(Date t_date) {
+	public Date assign(Date t_date) {
 		m_year= t_date.getYear();
 		m_month = t_date.getMonth();
 		m_day = t_date.getDay();
@@ -169,13 +170,13 @@ public class Date {
 		return this;
 	}
 	
-	boolean equal(Date t_date) {
+	public boolean equal(Date t_date) {
 		if(m_year == t_date.getYear() && m_month == t_date.m_month && m_day == t_date.m_day && m_hour == t_date.m_hour && m_minute == t_date.m_minute)
 			return true;
 		return false;
 	}
 	
-	boolean greaterThan(Date t_date) {
+	public boolean greaterThan(Date t_date) {
 		if(m_year > t_date.m_year)	return true;
 		else if(m_year == t_date.m_year){
 			if(m_month > t_date.m_month) return true;
@@ -195,7 +196,7 @@ public class Date {
 		}
 		else return false;
 	}
-	boolean lessThan(Date t_date) {
+	public boolean lessThan(Date t_date) {
 		if(m_year < t_date.m_year)	return true;
 		else if(m_year == t_date.m_year){
 			if(m_month < t_date.m_month) return true;
@@ -215,7 +216,7 @@ public class Date {
 		}
 		else return false;
 	}
-	boolean greaterOrEqual(Date t_date) {
+	public boolean greaterOrEqual(Date t_date) {
 		if(m_year > t_date.m_year)	return true;
 		else if(m_year == t_date.m_year){
 			if(m_month > t_date.m_month) return true;
@@ -235,7 +236,7 @@ public class Date {
 		}
 		else return false;
 	}
-	boolean lessOrEqual(Date t_date) {
+	public boolean lessOrEqual(Date t_date) {
 		if(m_year < t_date.m_year)	return true;
 		else if(m_year == t_date.m_year){
 			if(m_month < t_date.m_month) return true;
