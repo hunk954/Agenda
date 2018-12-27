@@ -88,8 +88,10 @@ public class Register {
 						phone = r_phone.getText();
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
+						JOptionPane.showMessageDialog(null, "注册成功！");
 						jFrame.setVisible(false);
-						new Account(jFrame,service, userName, password);
+						parentFrame.setVisible(true);
+//						new Account(jFrame,service, userName, password);
 					} catch(Exception e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
@@ -123,8 +125,10 @@ public class Register {
 						phone = r_phone.getText();
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
+						JOptionPane.showMessageDialog(null, "注册成功！");
 						jFrame.setVisible(false);
-						new Account(jFrame,service, userName, password);
+						parentFrame.setVisible(true);
+//						new Account(jFrame,service, userName, password);
 					} catch(Exception e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
@@ -158,8 +162,10 @@ public class Register {
 						phone = r_phone.getText();
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
+						JOptionPane.showMessageDialog(null, "注册成功！");
 						jFrame.setVisible(false);
-						new Account(jFrame,service, userName, password);
+						parentFrame.setVisible(true);
+//						new Account(jFrame,service, userName, password);
 					} catch(Exception e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
@@ -184,17 +190,22 @@ public class Register {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
-				try {
-					userName = r_user.getText();
-					password = String.valueOf(r_password.getPassword());
-					email = r_email.getText();
-					phone = r_phone.getText();
-					r_password.setText("");
-					service.userRegister(userName, password, email, phone);
-					jFrame.setVisible(false);
-					new Account(jFrame,service, userName, password);
-				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage());
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = r_user.getText();
+						password = String.valueOf(r_password.getPassword());
+						email = r_email.getText();
+						phone = r_phone.getText();
+						r_password.setText("");
+						service.userRegister(userName, password, email, phone);
+						JOptionPane.showMessageDialog(null, "注册成功！");
+						jFrame.setVisible(false);
+						parentFrame.setVisible(true);
+//						new Account(jFrame,service, userName, password);
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
 				}
 			}
 		});
@@ -215,9 +226,12 @@ public class Register {
 					password = String.valueOf(r_password.getPassword());
 					email = r_email.getText();
 					phone = r_phone.getText();
+					r_password.setText("");
 					service.userRegister(userName, password, email, phone);
+					JOptionPane.showMessageDialog(null, "注册成功！");
 					jFrame.setVisible(false);
-					new Account(jFrame,service, userName, password);
+					parentFrame.setVisible(true);
+//					new Account(jFrame,service, userName, password);
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
