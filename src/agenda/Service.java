@@ -10,14 +10,16 @@ public class Service {
 		startAgenda();
 	}
 	public void userLogIn(String userName, String password) throws Exception {
-		boolean isEmpty = storage.queryUser((User user) ->{
-			if (user.getName().equals(userName))
-				return true;
-			return false;
-		}).isEmpty();
-		if (isEmpty) {
+//		boolean isEmpty = storage.queryUser((User user) ->{
+//			if (user.getName().equals(userName))
+//				return true;
+//			return false;
+//		}).isEmpty();
+//		if (isEmpty) {
+//			throw new Exception("用户不存在");
+//		}
+		if (!storage.containUser(userName))
 			throw new Exception("用户不存在");
-		}
 		
 		boolean isWrong = storage.queryUser((User user) ->{
 			if (user.getName().equals(userName) && user.getPassword().equals(password))
@@ -31,14 +33,16 @@ public class Service {
 	}
 	
 	public void userRegister(String userName, String password, String email, String phone) throws Exception {
-		boolean isUnique = storage.queryUser((User user) ->{
-			if (user.getName().equals(userName))
-				return true;
-			return false;
-		}).isEmpty();
-		if (!isUnique) throw new Exception("用户已存在");
+//		boolean isUnique = storage.queryUser((User user) ->{
+//			if (user.getName().equals(userName))
+//				return true;
+//			return false;
+//		}).isEmpty();
+//		if (!isUnique) throw new Exception("用户已存在");
+		if (storage.containUser(userName))
+			throw new Exception("用户已存在");
 		
-		isUnique = storage.queryUser((User user) ->{
+		boolean isUnique = storage.queryUser((User user) ->{
 			if (user.getEmail().equals(email))
 				return true;
 			return false;
@@ -131,8 +135,8 @@ public class Service {
 		}
 		
 		for (int i = 0; i < participator.size(); i++) {
-			if (storage.containUser(participator.elementAt(i)))
-				throw new Exception("invalid time interval"); 
+			if (!storage.containUser(participator.elementAt(i)))
+				throw new Exception("there is participator who isn't registered"); 
 		}
 		
 		boolean isExist = !storage.queryMeeting((Meeting meeting) ->{

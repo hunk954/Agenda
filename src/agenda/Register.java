@@ -3,9 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import javax.swing.*;
 
 public class Register {
@@ -14,7 +11,7 @@ public class Register {
 	private JLabel userlabel = new JLabel("用户名");
 	private JTextField r_user = new JTextField();
 	private JLabel passwordlabel = new JLabel("密码");
-	private JTextField r_password = new JTextField();
+	private JPasswordField r_password = new JPasswordField();
 	private JLabel phonelabel = new JLabel("手机");
 	private JTextField r_phone = new JTextField();
 	private JLabel emaillabel = new JLabel("邮箱");
@@ -33,7 +30,7 @@ public class Register {
 		jFrame.setSize(400, 400);
 		jFrame.setLocationRelativeTo(null);
 		container.setLayout(new BorderLayout());
-		jFrame.setDefaultCloseOperation(jFrame.DISPOSE_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		init();
 		jFrame.setVisible(true);
 		this.service = service;
@@ -79,12 +76,12 @@ public class Register {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					userName = r_user.getText();
-					password = r_password.getText();
+					password = String.valueOf(r_password.getPassword());
 					email = r_email.getText();
 					phone = r_phone.getText();
 					service.userRegister(userName, password, email, phone);
 					jFrame.setVisible(false);
-					new Account(jFrame,service);
+					new Account(jFrame,service, userName, password);
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}

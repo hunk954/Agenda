@@ -5,24 +5,27 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
+import javax.swing.WindowConstants;
 
 public class ListAccount {
 	private JFrame parentFrame;
 	private JFrame jFrame = new JFrame("会议管理系统");
-	public ListAccount(JFrame parent) {
+	private ArrayList<User> users = new ArrayList<User>();
+	public ListAccount(JFrame parent, ArrayList<User> users) {
 		this.parentFrame = parent;
 		jFrame.setSize(400, 600);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.getContentPane().setLayout(new BorderLayout());
-		jFrame.setDefaultCloseOperation(jFrame.DISPOSE_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		init();
 		jFrame.setVisible(true);
+		this.users = users;
 	}
 	public void init() {
 		JPanel titlePane = new JPanel();

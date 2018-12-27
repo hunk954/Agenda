@@ -201,13 +201,14 @@ public class Storage {
 	}
 	
 	public boolean containUser(String userName) {
-		boolean isContain = !queryUser((User user) ->{		//if user do not register, false
-			if (user.getName() == userName)
-				return true;
-			return false;
-		}).isEmpty();
 		
-		if (isContain) return true;
+		Iterator<User> iter = userList.iterator();
+		while (iter.hasNext()) {
+			User element = iter.next();
+			if (element.getName().equals(userName))
+				return true;
+		}
+		
 		return false;
 	}
 	

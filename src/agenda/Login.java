@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class Login {
 	private JFrame  jFrame = new JFrame("会议管理系统-登陆");
@@ -32,7 +33,7 @@ public class Login {
 		jFrame.setLocationRelativeTo(null);
 		container.setLayout(new BorderLayout());//无边界布局
 		//设置按右下角x后关闭窗口
-		jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		//初始化，窗体内放其他的控件
 		init();
 		jFrame.setVisible(true);
@@ -80,10 +81,10 @@ public class Login {
 				// TODO Auto-generated method stub
 				try {
 					userName = l_username.getText();
-					userPassword = l_password.getText();
+					userPassword = String.valueOf(l_password.getPassword());
 					service.userLogIn(userName, userPassword);
 					jFrame.setVisible(false);
-					new Account(jFrame,service);	
+					new Account(jFrame,service, userName, userPassword);	
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
 					System.out.println(e1.getMessage());

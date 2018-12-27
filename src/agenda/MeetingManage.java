@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 public class MeetingManage {
 	private JFrame parentFrame;
 	private JFrame jFrame = new JFrame("会议管理系统");
@@ -12,16 +13,20 @@ public class MeetingManage {
 	private JButton deleteMeeting = new JButton("删除会议");
 	private JButton quitMeeting = new JButton("退出会议");
 	private JButton returnButton = new JButton("返回");
-	public MeetingManage(JFrame parent) {
+	private Service service;
+	private String userName;
+	public MeetingManage(JFrame parent, Service service, String userName) {
 		parentFrame = parent;
 		jFrame.setSize(400,600);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.getContentPane().setLayout(new BorderLayout());//无边界布局
 		//设置按右下角x后关闭窗口
-		jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		//初始化，窗体内放其他的控件
 		init();
 		jFrame.setVisible(true);
+		this.service = service;
+		this.userName = userName;
 	}
 	public void init() {
 		JPanel titlePanel = new JPanel();
@@ -44,14 +49,24 @@ public class MeetingManage {
 					numOfParticipate = JOptionPane.showInputDialog("请输入参与会议的人数（不包括自己）");
 					if(numOfParticipate != null){
 						int n = Integer.parseInt(numOfParticipate);
-						String []arr = new String[5];
+						Vector<String> participators = new Vector<String>();
 						for(int i = 0; i < n; i++) {
-							arr[i] = JOptionPane.showInputDialog("第" + (i+1) + "位参与会议的用户名字：");
+							String member = JOptionPane.showInputDialog("第" + (i+1) + "位参与会议的用户名字：");
+//							System.out.println(member);
+							participators.addElement(member);
 						}
 						String startDate = JOptionPane.showInputDialog("开始时间(格式：XXXX-XX-XX/XX:XX)");
 						String endDate = JOptionPane.showInputDialog("结束时间:(格式：XXXX-XX-XX/XX:XX)");
 						
-						JOptionPane.showMessageDialog(null, "添加成功！");
+						try {
+							service.createMeeting(userName, meetingTitle, Date.stringToDate(startDate), Date.stringToDate(endDate), participators);
+							JOptionPane.showMessageDialog(null, "添加成功！");
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, e1.getMessage());
+						}
+						
 					}
 				}
 			}
@@ -80,7 +95,14 @@ public class MeetingManage {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String meetingTitle = JOptionPane.showInputDialog("请输入待删除会议标题");
-				JOptionPane.showMessageDialog(null, "删除成功！");
+				try {
+					service.deleteMeeting(userName, meetingTitle);
+					JOptionPane.showMessageDialog(null, "删除成功！");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "找不到此会议");
+				}
+				
 			}
 		});
 		
@@ -90,7 +112,14 @@ public class MeetingManage {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String meetingTitle = JOptionPane.showInputDialog("请输入待退出会议标题");
-				JOptionPane.showMessageDialog(null, "退出成功！");
+				try {
+					service.quitMeeting(userName, meetingTitle);
+					JOptionPane.showMessageDialog(null, "退出成功！");
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "找不到此会议");
+					// TODO Auto-generated catch block
+				}
+				
 			}
 		});
 		buttonPanel.add(listMeeting);

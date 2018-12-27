@@ -1,11 +1,10 @@
 package agenda;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 public class Account {
 	private JFrame parentJFrame;
 	private JFrame jFrame = new JFrame("会议管理系统");
@@ -14,8 +13,10 @@ public class Account {
 	private JButton deleteAccountButton = new JButton("删除此用户");
 	private JButton logOutButton = new JButton("登出");
 	private Service service;
+	private String userName;
+	private String password;
 	
-	public Account(JFrame parent, Service service) {
+	public Account(JFrame parent, Service service, String userName, String password) {
 		parentJFrame = parent;
 		jFrame.setSize(400, 400);
 		jFrame.setLocationRelativeTo(null);
@@ -24,6 +25,8 @@ public class Account {
 		init();
 		jFrame.setVisible(true);
 		this.service = service;
+		this.userName = userName;
+		this.password = password;
 	}
 	public void init() {
 		JPanel titlePanel = new JPanel();
@@ -40,7 +43,8 @@ public class Account {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new ListAccount(jFrame);
+				ArrayList<User> users = service.listAllUsers();
+				new ListAccount(jFrame, users);
 				jFrame.setVisible(false);
 			}
 		});
@@ -51,7 +55,7 @@ public class Account {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				jFrame.setVisible(false);
-				new MeetingManage(jFrame);
+				new MeetingManage(jFrame,service, userName);
 //				new MeetingManage(jFrame);
 			}
 		});
@@ -63,9 +67,15 @@ public class Account {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int n = JOptionPane.showConfirmDialog(null, "确认删除此用户吗？","会议管理系统",JOptionPane.YES_NO_OPTION);
+				
 				if(n == 0) {
-					jFrame.setVisible(false);
-					parentJFrame.setVisible(true);
+					try {
+						service.deleteUser(userName, password);
+						jFrame.setVisible(false);
+						parentJFrame.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}					
 				}
 			}
 		});
