@@ -2,15 +2,18 @@ package agenda;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
+
 
 public class Register {
 	private JFrame jFrame = new JFrame("会议管理系统-注册");
 	private Container container = jFrame.getContentPane();
-	private JLabel userlabel = new JLabel("用户名");
+	private JLabel userlabel = new JLabel("*用户名");
 	private JTextField r_user = new JTextField();
-	private JLabel passwordlabel = new JLabel("密码");
+	private JLabel passwordlabel = new JLabel("*密码");
 	private JPasswordField r_password = new JPasswordField();
 	private JLabel phonelabel = new JLabel("手机");
 	private JTextField r_phone = new JTextField();
@@ -59,9 +62,142 @@ public class Register {
 		fieldPanel.add(emaillabel);
 		
 		r_user.setBounds(140, 40, 120, 30);
+		r_user.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = r_user.getText();
+						password = String.valueOf(r_password.getPassword());
+						email = r_email.getText();
+						phone = r_phone.getText();
+						r_password.setText("");
+						service.userRegister(userName, password, email, phone);
+						jFrame.setVisible(false);
+						new Account(jFrame,service, userName, password);
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
+				}
+			}
+		});
 		r_password.setBounds(140,80,120,30);
+		r_password.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = r_user.getText();
+						password = String.valueOf(r_password.getPassword());
+						email = r_email.getText();
+						phone = r_phone.getText();
+						r_password.setText("");
+						service.userRegister(userName, password, email, phone);
+						jFrame.setVisible(false);
+						new Account(jFrame,service, userName, password);
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
+				}
+			}
+		});
 		r_phone.setBounds(140,120,120,30);
+		r_phone.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = r_user.getText();
+						password = String.valueOf(r_password.getPassword());
+						email = r_email.getText();
+						phone = r_phone.getText();
+						r_password.setText("");
+						service.userRegister(userName, password, email, phone);
+						jFrame.setVisible(false);
+						new Account(jFrame,service, userName, password);
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
+				}
+			}
+		});
 		r_email.setBounds(140,160,120,30);
+		r_email.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					userName = r_user.getText();
+					password = String.valueOf(r_password.getPassword());
+					email = r_email.getText();
+					phone = r_phone.getText();
+					r_password.setText("");
+					service.userRegister(userName, password, email, phone);
+					jFrame.setVisible(false);
+					new Account(jFrame,service, userName, password);
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
 		fieldPanel.add(r_user);
 		fieldPanel.add(r_password);
 		fieldPanel.add(r_phone);
@@ -91,7 +227,7 @@ public class Register {
 	
 		returnbtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				parentFrame.setEnabled(true);
+//				parentFrame.setEnabled(true);
 				jFrame.setVisible(false);
 			}
 		});

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 public class MeetingManage {
 	private JFrame parentFrame;
@@ -76,7 +77,10 @@ public class MeetingManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("模拟列出所有的会议");
+//				System.out.println("模拟列出所有的会议");
+				ArrayList<Meeting> meetings = service.listAllMeetings(userName);
+				new ListMeeting(parentFrame, meetings);
+				jFrame.setVisible(false);
 			}
 		});
 		returnButton.addActionListener(new ActionListener() {

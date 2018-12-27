@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.text.JTextComponent;
 
 public class Login {
 	private JFrame  jFrame = new JFrame("会议管理系统-登陆");
@@ -59,6 +62,72 @@ public class Login {
 		
 		l_username.setBounds(140, 40, 120, 30);
 		l_password.setBounds(140, 80, 120, 30);
+		//添加键盘事件监听
+		l_username.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = l_username.getText();
+						userPassword = String.valueOf(l_password.getPassword());
+						l_password.setText("");
+						service.userLogIn(userName, userPassword);
+						jFrame.setVisible(false);
+						new Account(jFrame,service, userName, userPassword);	
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+						System.out.println(e1.getMessage());
+					}
+				}
+			}
+		});
+		l_password.addKeyListener(new KeyListener() {
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int chCode = e.getKeyCode();
+				if(chCode == KeyEvent.VK_ENTER) {
+					try {
+						userName = l_username.getText();
+						userPassword = String.valueOf(l_password.getPassword());
+						l_password.setText("");
+						service.userLogIn(userName, userPassword);
+						jFrame.setVisible(false);
+						new Account(jFrame,service, userName, userPassword);	
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+						System.out.println(e1.getMessage());
+					}
+				}
+			}
+		});
+		
 		fieldPanel.add(l_username);
 		fieldPanel.add(l_password);
 		container.add(fieldPanel,"Center");
@@ -70,7 +139,7 @@ public class Login {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				jFrame.setEnabled(false);
+//				jFrame.setEnabled(false);
 				new Register(jFrame,service);
 			}
 		});

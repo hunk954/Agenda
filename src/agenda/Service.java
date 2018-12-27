@@ -39,6 +39,8 @@ public class Service {
 //			return false;
 //		}).isEmpty();
 //		if (!isUnique) throw new Exception("用户已存在");
+		if(userName.isEmpty() || password.isEmpty()) 
+			throw new Exception("用户名和密码不能为空");
 		if (storage.containUser(userName))
 			throw new Exception("用户已存在");
 		

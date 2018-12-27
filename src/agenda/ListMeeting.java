@@ -13,47 +13,50 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
-import javax.swing.plaf.basic.BasicTabbedPaneUI.TabbedPaneLayout;
 import javax.swing.table.TableColumn;
 
-public class ListAccount {
+public class ListMeeting {
 	private JFrame parentFrame;
 	private JFrame jFrame = new JFrame("会议管理系统");
-	private ArrayList<User> users;
-	public ListAccount(JFrame parent, ArrayList<User> users) {
+	private ArrayList<Meeting> meetings;
+	public ListMeeting(JFrame parent, ArrayList<Meeting> meetings) {
 		this.parentFrame = parent;
-		jFrame.setSize(400, 600);
+		jFrame.setSize(500, 600);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.getContentPane().setLayout(new BorderLayout());
 		jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		jFrame.setVisible(true);
-		this.users = users;
+		this.meetings = meetings;
 		init();
 	}
 	public void init() {
 		JPanel titlePane = new JPanel();
 		titlePane.setLayout(new FlowLayout());
-		JLabel title = new JLabel("所有用户");
+		JLabel title = new JLabel("所有会议");
 		title.setFont(new Font("黑体",Font.PLAIN, 40));
 		titlePane.add(title);
 		jFrame.getContentPane().add(titlePane, "North");
 		
 		JPanel accountPane = new JPanel();
 		accountPane.setLayout(new FlowLayout());
-		Object []columnNames = {"用户名", "手机号", "邮箱"};
-		System.out.println(users.size());
-		Object [][]userDetails = new Object[users.size()][3];
-		for(int i = 0; i < users.size(); i++) {
-			userDetails[i][0] = users.get(i).getName();
-			userDetails[i][1] = users.get(i).getPhone();
-			userDetails[i][2] = users.get(i).getEmail();
+		Object []columnNames = {"会议发起人", "参与者", "起始时间", "结束时间"};
+		System.out.println(meetings.size());
+		Object [][]meetingDetails = new Object[meetings.size()][4];
+		for(int i = 0; i < meetings.size(); i++) {
+			meetingDetails[i][0] = meetings.get(i).getSponsor();
+			meetingDetails[i][1] = meetings.get(i).getParticipators().get(0);
+			for(int j = 1; j < meetings.get(i).getParticipators().size(); j++) {
+				meetingDetails[i][1] += ", " + meetings.get(i).getParticipators().get(j);
+			}
+			meetingDetails[i][2] = Date.dateToString(meetings.get(i).getStartDate());
+			meetingDetails[i][3] = Date.dateToString(meetings.get(i).getEndDate());
 		}
-		JTable table = new JTable(userDetails, columnNames);
-		for(int i = 0; i < 3 ;i++) {
+		JTable table = new JTable(meetingDetails, columnNames);
+		table.setEnabled(false);
+		for(int i = 1; i < 4 ;i++) {
 			TableColumn column1 = table.getColumnModel().getColumn(i);
 			column1.setPreferredWidth(120);
 		}
-		table.setEnabled(false);
 		accountPane.add(table.getTableHeader(), BorderLayout.NORTH);
 		accountPane.add(table, BorderLayout.CENTER);
 		jFrame.getContentPane().add(accountPane, "Center");
