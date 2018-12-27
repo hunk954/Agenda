@@ -13,8 +13,9 @@ public class Account {
 	private JButton myMeetingButton = new JButton("会议管理 ");
 	private JButton deleteAccountButton = new JButton("删除此用户");
 	private JButton logOutButton = new JButton("登出");
+	private Service service;
 	
-	public Account(JFrame parent) {
+	public Account(JFrame parent, Service service) {
 		parentJFrame = parent;
 		jFrame.setSize(400, 400);
 		jFrame.setLocationRelativeTo(null);
@@ -22,6 +23,7 @@ public class Account {
 		jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		init();
 		jFrame.setVisible(true);
+		this.service = service;
 	}
 	public void init() {
 		JPanel titlePanel = new JPanel();

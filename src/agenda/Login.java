@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -23,7 +24,10 @@ public class Login {
 	private JPasswordField l_password = new JPasswordField();
 	private JButton registerbtn = new JButton("注册");
 	private JButton loginbtn = new JButton("登陆");
-	public Login() {
+	private String userName;
+	private String userPassword;
+	private Service service;
+	public Login(Service service) {
 		jFrame.setSize(400,400);
 		jFrame.setLocationRelativeTo(null);
 		container.setLayout(new BorderLayout());//无边界布局
@@ -32,6 +36,7 @@ public class Login {
 		//初始化，窗体内放其他的控件
 		init();
 		jFrame.setVisible(true);
+		this.service = service;
 	}
 	public void init() {
 		//标题
@@ -65,7 +70,7 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				jFrame.setEnabled(false);
-				new Register(jFrame);
+				new Register(jFrame,service);
 			}
 		});
 		loginbtn.addActionListener(new ActionListener() {
@@ -73,8 +78,17 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				jFrame.setVisible(false);
-				new Account(jFrame);
+				try {
+					userName = l_username.getText();
+					userPassword = l_password.getText();
+					service.userLogIn(userName, userPassword);
+					jFrame.setVisible(false);
+					new Account(jFrame,service);	
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "用户名不存在或密码错误");
+					System.out.println(e1.getMessage());
+				}
+				
 				
 			}
 		});

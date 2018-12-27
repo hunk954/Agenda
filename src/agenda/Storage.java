@@ -19,12 +19,19 @@ public class Storage {
 	private String meetingPath = "./data/meeting.csv";
 	boolean dirty;
 	
-	public Storage() {
+	
+	private static class Holder{
+		private static Storage instance = new Storage();
+	}
+	private Storage() {
 		readFromFile();
 		dirty = false;
 	}
+	public static  Storage getInstance() {
+		return Holder.instance;	
+	}
 	
-	protected void finalize() {
+	protected void finalize() throws Throwable { 
 		sync();
 	}
 	
@@ -154,11 +161,13 @@ public class Storage {
 	
 	@SuppressWarnings("null")
 	public ArrayList<User> queryUser(Predicate<User> filter) {
-		ArrayList<User> temp = null;
+		ArrayList<User> temp = new ArrayList<User>();
 		Iterator<User> iter = userList.iterator();
 		while (iter.hasNext()) {
-			if (filter.test(iter.next()))
-				temp.add(iter.next());
+			User element = iter.next();
+//			System.out.println(element.getName());
+			if (filter.test(element))
+				temp.add(element);
 		}
 		
 		return temp;
@@ -168,8 +177,9 @@ public class Storage {
 		int count = 0;
 		Iterator<User> iter = userList.iterator();
 		while (iter.hasNext()) {
-			if (filter.test(iter.next())) {
-				switcher.accept(iter.next());
+			User element = iter.next();
+			if (filter.test(element)) {
+				switcher.accept(element);
 				count++;
 			}
 		}
@@ -190,6 +200,17 @@ public class Storage {
 		return count;
 	}
 	
+	public boolean containUser(String userName) {
+		boolean isContain = !queryUser((User user) ->{		//if user do not register, false
+			if (user.getName() == userName)
+				return true;
+			return false;
+		}).isEmpty();
+		
+		if (isContain) return true;
+		return false;
+	}
+	
 	public void createMeeting(Meeting meeting) {
 		meetingList.add(meeting);
 		dirty = true;
@@ -197,11 +218,12 @@ public class Storage {
 	
 	@SuppressWarnings("null")
 	public ArrayList<Meeting> queryMeeting(Predicate<Meeting> filter) {
-		ArrayList<Meeting> temp = null;
+		ArrayList<Meeting> temp = new ArrayList<Meeting>();
 		Iterator<Meeting> iter = meetingList.iterator();
 		while (iter.hasNext()) {
-			if (filter.test(iter.next()))
-				temp.add(iter.next());
+			Meeting element = iter.next();
+			if (filter.test(element))
+				temp.add(element);
 		}
 		
 		return temp;
@@ -211,8 +233,9 @@ public class Storage {
 		int count = 0;
 		Iterator<Meeting> iter = meetingList.iterator();
 		while (iter.hasNext()) {
-			if (filter.test(iter.next())) {
-				switcher.accept(iter.next());
+			Meeting element = iter.next();
+			if (filter.test(element)) {
+				switcher.accept(element);
 				count++;
 			}
 		}
@@ -233,15 +256,15 @@ public class Storage {
 		return count;
 	}
 	
-	public static void main(String[] args) {
-		Storage test = new Storage();
-		Vector<String> p = new Vector<String>();
-		p.add("sb");
-		p.add("sb2");
-		User test1 = new User("sb", "123", "123", "123");
-		Meeting mtest = new Meeting("sb",p,new Date(1999,1,2,10,10),new Date(1999,1,2,10,10),"12");
+//	public static void main(String[] args) throws Throwable {
+//		Storage test = Storage.getInstance();
+//		Vector<String> p = new Vector<String>();
+//		p.add("sb");
+//		p.add("sb2");
+//		User test1 = new User("sb", "123", "123", "123");
+//		Meeting mtest = new Meeting("sb",p,new Date(1999,1,2,10,10),new Date(1999,1,2,10,10),"12");
 //		test.createUser(test1);
 //		test.createMeeting(mtest);
-		test.finalize();
-	}
+//		test.finalize();
+//	}
 }

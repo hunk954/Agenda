@@ -3,9 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import org.omg.CORBA.PRIVATE_MEMBER;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
@@ -26,7 +23,12 @@ public class Register {
 	private JButton resetbtn = new JButton("ÖØÖÃ");
 	private JButton returnbtn = new JButton("·µ»Ø");
 	private JFrame parentFrame;
-	public Register(JFrame parentFrame) {
+	private Service service;
+	protected String userName;
+	protected String password;
+	protected String email;
+	protected String phone;
+	public Register(JFrame parentFrame, Service service) {
 		this.parentFrame = parentFrame; 
 		jFrame.setSize(400, 400);
 		jFrame.setLocationRelativeTo(null);
@@ -34,6 +36,7 @@ public class Register {
 		jFrame.setDefaultCloseOperation(jFrame.DISPOSE_ON_CLOSE);
 		init();
 		jFrame.setVisible(true);
+		this.service = service;
 	}
 	public void init() {
 		JPanel titlePanel = new JPanel();
@@ -74,8 +77,18 @@ public class Register {
 		resetbtn.addActionListener(rstEvent);
 		surebtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				parentFrame.setEnabled(true);
-				jFrame.setVisible(false);
+				try {
+					userName = r_user.getText();
+					password = r_password.getText();
+					email = r_email.getText();
+					phone = r_phone.getText();
+					service.userRegister(userName, password, email, phone);
+					jFrame.setVisible(false);
+					new Account(jFrame,service);
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
 			}
 		});
 	
