@@ -2,6 +2,8 @@ package agenda;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -61,9 +63,13 @@ public class Register {
 		fieldPanel.add(phonelabel);
 		fieldPanel.add(emaillabel);
 		
+		
 		r_user.setBounds(140, 40, 200, 30);
-		r_user.setText(" 3~10位，必须以英文字母开头");
+		String hintUser = " 3~10位，必须以英文字母开头";
+		r_user.setText(hintUser);
 		r_user.setForeground(Color.gray);
+		textFocus userFocus = new textFocus(r_user, hintUser);
+		r_user.addFocusListener(userFocus);
 		r_user.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -102,8 +108,11 @@ public class Register {
 		});
 		r_password.setBounds(140,80,200,30);
 		r_password.setEchoChar((char)0);
-		r_password.setText(" 6~12位，区分大小写");
+		String passwordHint = " 6~12位，区分大小写";
+		r_password.setText(passwordHint);
 		r_password.setForeground(Color.gray);
+		passwordFocus passwordFoc = new passwordFocus(r_password, passwordHint);
+		r_password.addFocusListener(passwordFoc);
 		r_password.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -141,8 +150,11 @@ public class Register {
 			}
 		});
 		r_phone.setBounds(140,120,200,30);
-		r_phone.setText(" 11位数字，不能以0开头");
+		String hintPhone = " 11位数字，不能以0开头"; 
+		r_phone.setText(hintPhone);
 		r_phone.setForeground(Color.gray);
+		textFocus phoneFocus = new textFocus(r_phone, hintPhone);
+		r_phone.addFocusListener(phoneFocus);
 		r_phone.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -179,9 +191,13 @@ public class Register {
 				}
 			}
 		});
+		
 		r_email.setBounds(140,160,200,30);
-		r_email.setText(" 输入合法邮箱");
+		String hintEmail = " 输入合法邮箱";
+		r_email.setText(hintEmail);
 		r_email.setForeground(Color.gray);
+		textFocus emailFocus = new textFocus(r_email, hintEmail);
+		r_email.addFocusListener(emailFocus);
 		r_email.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -290,3 +306,70 @@ class buttonListen implements ActionListener{
 	}
 }
 
+class textFocus implements FocusListener{
+	private JTextField textField;
+	private String hintText;
+//	private JPasswordField password;
+	public textFocus(JTextField textField, String hintText) {
+		this.textField = textField;
+		this.hintText = hintText;
+	}
+//	public textFocus(JPasswordField password) {
+//		this.password = password;
+//	}
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		String temp = textField.getText();
+		if(temp.equals(hintText)) {
+			textField.setText("");
+			textField.setForeground(Color.BLACK);
+		}
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		String temp = textField.getText();
+		if(temp.equals("")) {
+			textField.setForeground(Color.GRAY);
+			textField.setText(hintText);
+		}
+	}
+	
+}
+
+class passwordFocus implements FocusListener{
+	private JPasswordField textField;
+	private String hintText;
+//	private JPasswordField password;
+	public passwordFocus(JPasswordField textField, String hintText) {
+		this.textField = textField;
+		this.hintText = hintText;
+	}
+//	public textFocus(JPasswordField password) {
+//		this.password = password;
+//	}
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		String temp = String.valueOf(textField.getPassword());
+		if(temp.equals(hintText)) {
+			textField.setEchoChar('*');
+			textField.setText("");
+			textField.setForeground(Color.BLACK);
+		}
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		String temp = String.valueOf(textField.getPassword());
+		if(temp.equals("")) {
+			textField.setEchoChar((char)0);
+			textField.setForeground(Color.GRAY);
+			textField.setText(hintText);
+		}
+	}
+	
+}
