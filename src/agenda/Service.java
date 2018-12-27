@@ -18,6 +18,11 @@ public class Service {
 //		if (isEmpty) {
 //			throw new Exception("用户不存在");
 //		}
+		if (userName.equals(""))
+			throw new Exception("用户名不能为空");
+		if (password.equals(""))
+			throw new Exception("密码不能为空");
+		
 		if (!storage.containUser(userName))
 			throw new Exception("用户不存在");
 		
@@ -39,6 +44,27 @@ public class Service {
 //			return false;
 //		}).isEmpty();
 //		if (!isUnique) throw new Exception("用户已存在");
+		String userNameRegex = "^[a-zA-Z][a-zA-Z0-9_]{2,9}$";
+		String passwordRegex = "^[a-zA-Z0-9_-]{6,12}$";
+		String phoneRegex = "^[1-9][0-9]{10}$";
+		String emailRegex = "^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$";
+		if (!userName.matches(userNameRegex)) {
+			if (userName.equals(""))
+				throw new Exception("用户名不能为空");
+			throw new Exception("用户名：3~10位，必须以英文字母开头");
+		}	
+		if (!password.matches(passwordRegex)) {
+			if (password.equals(""))
+				throw new Exception("密码不能为空");
+			throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+		}
+		if (!phone.matches(phoneRegex) && !phone.equals("")) {
+			throw new Exception("电话：11位数字，不能以0开头");
+		}
+		if (!email.equals(emailRegex) && !email.equals("")) {
+			throw new Exception("邮箱：请输入合法邮箱");
+		}
+		
 		if(userName.isEmpty() || password.isEmpty()) 
 			throw new Exception("用户名和密码不能为空");
 		if (storage.containUser(userName))
@@ -67,6 +93,7 @@ public class Service {
 	}
 	
 	public void deleteUser(String userName, String password) throws Exception {
+		
 		int count = storage.deleteUser((User user) ->{
 			if (user.getName().equals(userName) && user.getPassword().equals(password))
 				return true;
