@@ -123,13 +123,17 @@ public class MeetingManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String meetingTitle = JOptionPane.showInputDialog("请输入待删除会议标题");
+				
 				try {
+					String meetingTitle = JOptionPane.showInputDialog("请输入待删除会议标题");
+					while (meetingTitle.equals("")) 
+						meetingTitle = JOptionPane.showInputDialog("请输入待删除会议标题");
 					service.deleteMeeting(userName, meetingTitle);
 					JOptionPane.showMessageDialog(null, "删除成功！");
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "找不到此会议");
+					if (e1.getMessage() != null)
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 				
 			}
@@ -140,12 +144,16 @@ public class MeetingManage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String meetingTitle = JOptionPane.showInputDialog("请输入待退出会议标题");
+				
 				try {
+					String meetingTitle = JOptionPane.showInputDialog("请输入待退出会议标题");
+					while (meetingTitle.equals("")) 
+						meetingTitle = JOptionPane.showInputDialog("请输入待退出会议标题");
 					service.quitMeeting(userName, meetingTitle);
 					JOptionPane.showMessageDialog(null, "退出成功！");
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "找不到此会议");
+					if (e1.getMessage() != null)
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 					// TODO Auto-generated catch block
 				}
 				
