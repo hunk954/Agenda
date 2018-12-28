@@ -47,21 +47,21 @@ public class Service {
 		String userNameRegex = "^[a-zA-Z][a-zA-Z0-9_]{2,9}$";
 		String passwordRegex = "^[a-zA-Z0-9_-]{6,12}$";
 		String phoneRegex = "^[1-9][0-9]{10}$";
-		String emailRegex = "^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$";
+		String emailRegex = "^(\\\\w)+(\\\\.\\\\w+)*@(\\\\w)+((\\\\.\\\\w+)+)$";
 		if (!userName.matches(userNameRegex)) {
 			if (userName.equals(""))
 				throw new Exception("用户名不能为空");
-			throw new Exception("用户名：3~10位，必须以英文字母开头");
+			throw new Exception("用户名：3~10位，必须以英文字母开头s");
 		}	
 		if (!password.matches(passwordRegex)) {
 			if (password.equals(""))
 				throw new Exception("密码不能为空");
 			throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
 		}
-		if (!phone.matches(phoneRegex) && !phone.equals("")) {
+		if (!phone.equals("") && !phone.matches(phoneRegex)) {
 			throw new Exception("电话：11位数字，不能以0开头");
 		}
-		if (!email.equals(emailRegex) && !email.equals("")) {
+		if (!email.equals("") && !email.equals(emailRegex)) {
 			throw new Exception("邮箱：请输入合法邮箱");
 		}
 		

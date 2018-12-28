@@ -30,6 +30,14 @@ public class Register {
 	protected String password;
 	protected String email;
 	protected String phone;
+	private String userNameRegex = "^[a-zA-Z][a-zA-Z0-9_]{2,9}$";
+	private String passwordRegex = "^[a-zA-Z0-9_-]{6,12}$";
+	private String phoneRegex = "^[1-9][0-9]{10}$";
+	private String emailRegex = "^(\\\\w)+(\\\\.\\\\w+)*@(\\\\w)+((\\\\.\\\\w+)+)$";
+	private String hintUser = " 3~10位，必须以英文字母开头";
+	private String passwordHint = " 6~12位，区分大小写";
+	private String hintPhone = " 11位数字，不能以0开头";
+	private String hintEmail = " 输入合法邮箱";
 	public Register(JFrame parentFrame, Service service) {
 		this.parentFrame = parentFrame; 
 		jFrame.setSize(400, 400);
@@ -65,7 +73,7 @@ public class Register {
 		
 		
 		r_user.setBounds(140, 40, 200, 30);
-		String hintUser = " 3~10位，必须以英文字母开头";
+		
 		r_user.setText(hintUser);
 		r_user.setForeground(Color.gray);
 		textFocus userFocus = new textFocus(r_user, hintUser);
@@ -94,6 +102,28 @@ public class Register {
 						password = String.valueOf(r_password.getPassword());
 						email = r_email.getText();
 						phone = r_phone.getText();
+						if (!userName.matches(userNameRegex)) {
+							if (userName.equals(hintUser))
+								throw new Exception("用户名不能为空");
+							throw new Exception("用户名：3~10位，必须以英文字母开头");
+						}	
+						if (!password.matches(passwordRegex)) {
+							if (password.equals(passwordHint))
+								throw new Exception("密码不能为空");
+							throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+						}
+						if (!phone.matches(phoneRegex)) {
+							if (phone.equals(hintPhone))
+								phone = "";
+							else
+								throw new Exception("电话：11位数字，不能以0开头");
+						}
+						if (!email.equals(emailRegex)) {
+							if (email.equals(hintEmail)) 
+								email = "";
+							else 
+								throw new Exception("邮箱：请输入合法邮箱");
+						}
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
 						JOptionPane.showMessageDialog(null, "注册成功！");
@@ -108,7 +138,7 @@ public class Register {
 		});
 		r_password.setBounds(140,80,200,30);
 		r_password.setEchoChar((char)0);
-		String passwordHint = " 6~12位，区分大小写";
+		
 		r_password.setText(passwordHint);
 		r_password.setForeground(Color.gray);
 		passwordFocus passwordFoc = new passwordFocus(r_password, passwordHint);
@@ -137,6 +167,29 @@ public class Register {
 						password = String.valueOf(r_password.getPassword());
 						email = r_email.getText();
 						phone = r_phone.getText();
+						
+						if (!userName.matches(userNameRegex)) {
+							if (userName.equals(hintUser))
+								throw new Exception("用户名不能为空");
+							throw new Exception("用户名：3~10位，必须以英文字母开头");
+						}	
+						if (!password.matches(passwordRegex)) {
+							if (password.equals(passwordHint))
+								throw new Exception("密码不能为空");
+							throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+						}
+						if (!phone.matches(phoneRegex)) {
+							if (phone.equals(hintPhone))
+								phone = "";
+							else
+								throw new Exception("电话：11位数字，不能以0开头");
+						}
+						if (!email.equals(emailRegex)) {
+							if (email.equals(hintEmail)) 
+								email = "";
+							else 
+								throw new Exception("邮箱：请输入合法邮箱");
+						}
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
 						JOptionPane.showMessageDialog(null, "注册成功！");
@@ -150,7 +203,7 @@ public class Register {
 			}
 		});
 		r_phone.setBounds(140,120,200,30);
-		String hintPhone = " 11位数字，不能以0开头"; 
+
 		r_phone.setText(hintPhone);
 		r_phone.setForeground(Color.gray);
 		textFocus phoneFocus = new textFocus(r_phone, hintPhone);
@@ -179,6 +232,28 @@ public class Register {
 						password = String.valueOf(r_password.getPassword());
 						email = r_email.getText();
 						phone = r_phone.getText();
+						if (!userName.matches(userNameRegex)) {
+							if (userName.equals(hintUser))
+								throw new Exception("用户名不能为空");
+							throw new Exception("用户名：3~10位，必须以英文字母开头");
+						}	
+						if (!password.matches(passwordRegex)) {
+							if (password.equals(passwordHint))
+								throw new Exception("密码不能为空");
+							throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+						}
+						if (!phone.matches(phoneRegex)) {
+							if (phone.equals(hintPhone))
+								phone = "";
+							else
+								throw new Exception("电话：11位数字，不能以0开头");
+						}
+						if (!email.equals(emailRegex)) {
+							if (email.equals(hintEmail)) 
+								email = "";
+							else 
+								throw new Exception("邮箱：请输入合法邮箱");
+						}
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
 						JOptionPane.showMessageDialog(null, "注册成功！");
@@ -193,7 +268,7 @@ public class Register {
 		});
 		
 		r_email.setBounds(140,160,200,30);
-		String hintEmail = " 输入合法邮箱";
+		
 		r_email.setText(hintEmail);
 		r_email.setForeground(Color.gray);
 		textFocus emailFocus = new textFocus(r_email, hintEmail);
@@ -222,6 +297,28 @@ public class Register {
 						password = String.valueOf(r_password.getPassword());
 						email = r_email.getText();
 						phone = r_phone.getText();
+						if (!userName.matches(userNameRegex)) {
+							if (userName.equals(hintUser))
+								throw new Exception("用户名不能为空");
+							throw new Exception("用户名：3~10位，必须以英文字母开头");
+						}	
+						if (!password.matches(passwordRegex)) {
+							if (password.equals(passwordHint))
+								throw new Exception("密码不能为空");
+							throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+						}
+						if (!phone.matches(phoneRegex)) {
+							if (phone.equals(hintPhone))
+								phone = "";
+							else
+								throw new Exception("电话：11位数字，不能以0开头");
+						}
+						if (!email.equals(emailRegex)) {
+							if (email.equals(hintEmail)) 
+								email = "";
+							else 
+								throw new Exception("邮箱：请输入合法邮箱");
+						}
 						r_password.setText("");
 						service.userRegister(userName, password, email, phone);
 						JOptionPane.showMessageDialog(null, "注册成功！");
@@ -251,6 +348,28 @@ public class Register {
 					password = String.valueOf(r_password.getPassword());
 					email = r_email.getText();
 					phone = r_phone.getText();
+					if (!userName.matches(userNameRegex)) {
+						if (userName.equals(hintUser))
+							throw new Exception("用户名不能为空");
+						throw new Exception("用户名：3~10位，必须以英文字母开头");
+					}	
+					if (!password.matches(passwordRegex)) {
+						if (password.equals(passwordHint))
+							throw new Exception("密码不能为空");
+						throw new Exception("密码：6~12位数字、大小写字母、中划线、下划线");
+					}
+					if (!phone.matches(phoneRegex)) {
+						if (phone.equals(hintPhone))
+							phone = "";
+						else
+							throw new Exception("电话：11位数字，不能以0开头");
+					}
+					if (!email.equals(emailRegex)) {
+						if (email.equals(hintEmail)) 
+							email = "";
+						else 
+							throw new Exception("邮箱：请输入合法邮箱");
+					}
 					r_password.setText("");
 					service.userRegister(userName, password, email, phone);
 					JOptionPane.showMessageDialog(null, "注册成功！");
@@ -330,7 +449,12 @@ class textFocus implements FocusListener{
 	@Override
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
+		
 		String temp = textField.getText();
+//		if (!temp.equals("") && !temp.matches(regex)) {
+//			JOptionPane.showMessageDialog(null, "12");
+////			textField.grabFocus();
+//		}	
 		if(temp.equals("")) {
 			textField.setForeground(Color.GRAY);
 			textField.setText(hintText);
@@ -365,6 +489,10 @@ class passwordFocus implements FocusListener{
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
 		String temp = String.valueOf(textField.getPassword());
+//		if (!temp.matches(regex) && !temp.equals("")) {
+//			JOptionPane.showMessageDialog(null, msg);
+////			textField.grabFocus();
+//		}
 		if(temp.equals("")) {
 			textField.setEchoChar((char)0);
 			textField.setForeground(Color.GRAY);
