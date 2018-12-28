@@ -21,7 +21,7 @@ public class ListMeeting {
 	private ArrayList<Meeting> meetings;
 	public ListMeeting(JFrame parent, ArrayList<Meeting> meetings) {
 		this.parentFrame = parent;
-		jFrame.setSize(500, 600);
+		jFrame.setSize(600, 500);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.getContentPane().setLayout(new BorderLayout());
 		jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -39,21 +39,22 @@ public class ListMeeting {
 		
 		JPanel accountPane = new JPanel();
 		accountPane.setLayout(new FlowLayout());
-		Object []columnNames = {"会议发起人", "参与者", "起始时间", "结束时间"};
+		Object []columnNames = {"会议发起人","会议标题", "参与者", "起始时间", "结束时间"};
 //		System.out.println(meetings.size());
-		Object [][]meetingDetails = new Object[meetings.size()][4];
+		Object [][]meetingDetails = new Object[meetings.size()][5];
 		for(int i = 0; i < meetings.size(); i++) {
 			meetingDetails[i][0] = meetings.get(i).getSponsor();
-			meetingDetails[i][1] = meetings.get(i).getParticipators().get(0);
+			meetingDetails[i][1] = meetings.get(i).getTitle();
+			meetingDetails[i][2] = meetings.get(i).getParticipators().get(0);
 			for(int j = 1; j < meetings.get(i).getParticipators().size(); j++) {
-				meetingDetails[i][1] += ", " + meetings.get(i).getParticipators().get(j);
+				meetingDetails[i][2] += ", " + meetings.get(i).getParticipators().get(j);
 			}
-			meetingDetails[i][2] = Date.dateToString(meetings.get(i).getStartDate());
-			meetingDetails[i][3] = Date.dateToString(meetings.get(i).getEndDate());
+			meetingDetails[i][3] = Date.dateToString(meetings.get(i).getStartDate());
+			meetingDetails[i][4] = Date.dateToString(meetings.get(i).getEndDate());
 		}
 		JTable table = new JTable(meetingDetails, columnNames);
 		table.setEnabled(false);
-		for(int i = 1; i < 4 ;i++) {
+		for(int i = 2; i < 5 ;i++) {
 			TableColumn column1 = table.getColumnModel().getColumn(i);
 			column1.setPreferredWidth(120);
 		}
