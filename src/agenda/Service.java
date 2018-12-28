@@ -133,7 +133,7 @@ public class Service {
 			Vector<String> participator) throws Exception {
 		for (int i = 0; i < participator.size(); i++) {
 			if (participator.elementAt(i).equals(userName)) {
-				throw new Exception("can't add yourself as participator");
+				throw new Exception("不能将自己加入到会议中");
 			}
 			
 		}
@@ -142,19 +142,19 @@ public class Service {
 			for (int j = 0; j < participator.size(); j++) {
 				if (i == j) continue;
 				if (participator.elementAt(i).equals(participator.elementAt(j))) {
-					throw new Exception("you add the same participators");
+					throw new Exception("不能重复加入同一成员");
 				}
 			}
 		}
 		if (participator.isEmpty()) {
-			throw new Exception("you can't have a meeting alone");
+			throw new Exception("没有参与用户");
 		}
 
 		if (!Date.isValid(startDate) || !Date.isValid(endDate)) {
-			throw new Exception("invalid date");
+			throw new Exception("不合法日期");
 		}
 		if (startDate.greaterOrEqual(endDate)) {
-			throw new Exception("invalid time interval");
+			throw new Exception("不合法时间段");
 		}
 		boolean isuserReg = !storage.queryUser((User user) ->{		//if user do not register, false
 			if (user.getName().equals(userName))
@@ -162,15 +162,23 @@ public class Service {
 			return false;
 		}).isEmpty();
 		if (!isuserReg) {
-			throw new Exception("there is participator who isn't registered");
+			throw new Exception("用户没注册");
 		}
 		
 		for (int i = 0; i < participator.size(); i++) {
 			if (!storage.containUser(participator.elementAt(i)))
-				throw new Exception("there is participator who isn't registered"); 
+				throw new Exception("找不到用户" + participator.elementAt(i)); 
 		}
 		
 		boolean isExist = !storage.queryMeeting((Meeting meeting) ->{
+			if (meeting.getTitle().equals(title)) return true;
+			return false;
+		}).isEmpty();
+		if (isExist) {
+			throw new Exception("会议标题重复");
+		}
+		
+		boolean isConflict = !storage.queryMeeting((Meeting meeting) ->{
 			if (meeting.getTitle().equals(title)) return true;
 			if (startDate.lessThan(meeting.getEndDate())  && startDate.greaterOrEqual(meeting.getStartDate())
 				|| (startDate.lessThan(meeting.getStartDate()) && endDate.greaterThan(meeting.getStartDate()))) {
@@ -181,8 +189,8 @@ public class Service {
 			}
 			return false;
 		}).isEmpty();
-		if (isExist) {
-			throw new Exception("time conflict or name conflict");
+		if (isConflict) {
+			throw new Exception("会议参与人员有时间冲突");
 		}
 
 		Meeting meeting = new Meeting(userName, participator, startDate, endDate, title);
@@ -191,33 +199,6 @@ public class Service {
 	}
 	
 	public void addMeetingParicipator(String userName, String title, String participator) throws Exception {
-		boolean isEmpty = storage.queryUser((User user) ->{
-			if (user.getName().equals(participator))
-				return true;
-			return false;
-		}).isEmpty();
-		if (isEmpty) {
-			throw new Exception("no user");
-		}
-		if (userName == participator) {
-			throw new Exception("can't add yourself as participator");
-		}
-		ArrayList<Meeting> meetingList = meetingQuery(userName, title);
-		boolean isOverlap = !storage.queryMeeting((Meeting meeting) ->{
-			if ((meetingList.get(0).getStartDate().lessThan(meeting.getEndDate()) && meetingList.get(0).getStartDate().greaterOrEqual(meeting.getStartDate())) 
-				|| (meetingList.get(0).getStartDate().lessThan(meeting.getStartDate()) && meetingList.get(0).getEndDate().greaterThan(meeting.getStartDate()))) {
-				if (participator.equals(meeting.getSponsor()) || meeting.isParticipator(participator))
-					return true;
-			}
-			return false;
-		}).isEmpty();
-		if (isOverlap) {
-			throw new Exception("time conflict");
-		}
-		//std::list<Meeting> p_meeting = meetingQuery(participator, Date::dateToString(u_meeting.begin()->getStartDate()),
-		//			Date::dateToString(u_meeting.begin()->getEndDate()));
-		//if (!p_meeting.empty()) return false;
-
 		int count = storage.updateMeeting((Meeting meeting) ->{
 			if (meeting.getTitle().equals(title) && meeting.getSponsor().equals(userName)) {
 				if (meeting.isParticipator(participator) || meeting.getSponsor().equals(participator))
@@ -231,8 +212,36 @@ public class Service {
 			meeting.addParticipator(participator);
 		});
 		if (count == 0) {
-			throw new Exception("no this meeting");
+			throw new Exception("找不到此会议");
 		}
+		
+		boolean isEmpty = storage.queryUser((User user) ->{
+			if (user.getName().equals(participator))
+				return true;
+			return false;
+		}).isEmpty();
+		if (isEmpty) {
+			throw new Exception("找不到此用户");
+		}
+		if (userName == participator) {
+			throw new Exception("不能将自己加入到会议中");
+		}
+		ArrayList<Meeting> meetingList = meetingQuery(userName, title);
+		boolean isOverlap = !storage.queryMeeting((Meeting meeting) ->{
+			if ((meetingList.get(0).getStartDate().lessThan(meeting.getEndDate()) && meetingList.get(0).getStartDate().greaterOrEqual(meeting.getStartDate())) 
+				|| (meetingList.get(0).getStartDate().lessThan(meeting.getStartDate()) && meetingList.get(0).getEndDate().greaterThan(meeting.getStartDate()))) {
+				if (participator.equals(meeting.getSponsor()) || meeting.isParticipator(participator))
+					return true;
+			}
+			return false;
+		}).isEmpty();
+		if (isOverlap) {
+			throw new Exception("此用户有时间冲突");
+		}
+		//std::list<Meeting> p_meeting = meetingQuery(participator, Date::dateToString(u_meeting.begin()->getStartDate()),
+		//			Date::dateToString(u_meeting.begin()->getEndDate()));
+		//if (!p_meeting.empty()) return false;
+
 		storage.sync();
 	}
 	
@@ -245,7 +254,7 @@ public class Service {
 			meeting.removeParticipator(participator);
 		});
 		if (count == 0) 
-			throw new Exception("no this meeting");
+			throw new Exception("找不到此会议");
 
 		storage.deleteMeeting((Meeting meeting) ->{
 			if (meeting.getParticipators().isEmpty())
@@ -264,7 +273,7 @@ public class Service {
 			meeting.removeParticipator(userName);
 		});
 		if (count == 0)
-			throw new Exception("no this meeting");
+			throw new Exception("找不到此会议");
 		storage.deleteMeeting((Meeting meeting) ->{
 			if (meeting.getParticipators().isEmpty())
 				return true;
@@ -326,7 +335,7 @@ public class Service {
 		});
 
 		if (count == 0) 
-			throw new Exception("no this meeting");
+			throw new Exception("找不到此会议");
 		storage.sync();
 	}
 	
@@ -338,7 +347,7 @@ public class Service {
 		});
 
 		if (count == 0) 
-			throw new Exception("no this meeting");
+			throw new Exception("找不到此会议");
 		storage.sync();
 	}
 	

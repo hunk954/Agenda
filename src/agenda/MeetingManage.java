@@ -43,33 +43,58 @@ public class MeetingManage {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String numOfParticipate;
-				String meetingTitle = JOptionPane.showInputDialog("请输入会议标题");
-				if(meetingTitle != null) {
+				try {
+					// TODO Auto-generated method stub
+					String numOfParticipate;
+					String meetingTitle = JOptionPane.showInputDialog("请输入会议标题");
+					while (meetingTitle.equals("")) 
+						meetingTitle = JOptionPane.showInputDialog("请输入会议标题");
+					
 					numOfParticipate = JOptionPane.showInputDialog("请输入参与会议的人数（不包括自己）");
-					if(numOfParticipate != null){
-						int n = Integer.parseInt(numOfParticipate);
-						Vector<String> participators = new Vector<String>();
-						for(int i = 0; i < n; i++) {
-							String member = JOptionPane.showInputDialog("第" + (i+1) + "位参与会议的用户名字：");
-//							System.out.println(member);
-							participators.addElement(member);
-						}
-						String startDate = JOptionPane.showInputDialog("开始时间(格式：XXXX-XX-XX/XX:XX)");
-						String endDate = JOptionPane.showInputDialog("结束时间:(格式：XXXX-XX-XX/XX:XX)");
-						
-						try {
-							service.createMeeting(userName, meetingTitle, Date.stringToDate(startDate), Date.stringToDate(endDate), participators);
-							JOptionPane.showMessageDialog(null, "添加成功！");
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, e1.getMessage());
-						}
-						
+					while (numOfParticipate.equals(""))
+						numOfParticipate = JOptionPane.showInputDialog("请输入参与会议的人数（不包括自己）");
+					while (!numOfParticipate.matches("[0-9]*")) {
+						JOptionPane.showMessageDialog(null, "请输入数字好吗？");
+						numOfParticipate = JOptionPane.showInputDialog("请输入参与会议的人数（不包括自己）");
 					}
+						
+					int n = Integer.parseInt(numOfParticipate);
+					
+					Vector<String> participators = new Vector<String>();
+					for(int i = 0; i < n; i++) {
+						String member = JOptionPane.showInputDialog("第" + (i+1) + "位参与会议的用户名字：");
+						while (member.equals(""))
+							member = JOptionPane.showInputDialog("第" + (i+1) + "位参与会议的用户名字：");
+						
+						if (member.equals(userName))
+							throw new Exception("不能将自己加入到会议中");
+//								System.out.println(member);
+						participators.addElement(member);
+					}
+					String startDate = JOptionPane.showInputDialog("开始时间(格式：XXXX-XX-XX/XX:XX)");
+					while (startDate.equals(""))
+						startDate = JOptionPane.showInputDialog("开始时间(格式：XXXX-XX-XX/XX:XX)");
+					while (!startDate.matches("^(\\d{4})(-)(\\d{2})(-)(\\d{2})(/)(\\d{2})(:)(\\d{2})$")) {
+						JOptionPane.showMessageDialog(null, "请输入正确时间格式！");
+						startDate = JOptionPane.showInputDialog("开始时间(格式：XXXX-XX-XX/XX:XX)");
+					}
+					String endDate = JOptionPane.showInputDialog("结束时间:(格式：XXXX-XX-XX/XX:XX)");
+					while (endDate.equals(""))
+						endDate = JOptionPane.showInputDialog("结束时间:(格式：XXXX-XX-XX/XX:XX)");
+					while (!endDate.matches("^(\\d{4})(-)(\\d{2})(-)(\\d{2})(/)(\\d{2})(:)(\\d{2})$")) {
+						JOptionPane.showMessageDialog(null, "请输入正确时间格式！");
+						endDate = JOptionPane.showInputDialog("结束时间:(格式：XXXX-XX-XX/XX:XX)");
+					}
+					
+					service.createMeeting(userName, meetingTitle, Date.stringToDate(startDate), Date.stringToDate(endDate), participators);
+					JOptionPane.showMessageDialog(null, "添加成功！");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+					if (e1.getMessage() != null)
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
+				
 			}
 		});
 		listMeeting.addActionListener(new ActionListener() {

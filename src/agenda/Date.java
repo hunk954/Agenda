@@ -1,7 +1,5 @@
 package agenda;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
-
 public class Date {
 	private int m_year;
 	private int m_month;
@@ -34,15 +32,17 @@ public class Date {
 	
 	public Date(final String dateString) {
 		boolean flag = true;
+		if (!dateString.matches("^(\\d{4})(-)(\\d{2})(-)(\\d{2})(/)(\\d{2})(:)(\\d{2})$"))
+			flag = false;
 		final char str[] = dateString.toCharArray();
-		if(str[4] != '-') flag = false;
-		else if(str[7] != '-') flag = false;
-		else if(str[10] != '/') flag = false;
-		else if(str[13] != ':') flag = false;
-		for(int i = 0; i < str.length && flag; i++) {
-			if((i-1) % 3 == 0 && i != 1) continue;
-			else if(!Character.isDigit(str[i]))flag = false;
-		}
+//		if(str[4] != '-') flag = false;
+//		else if(str[7] != '-') flag = false;
+//		else if(str[10] != '/') flag = false;
+//		else if(str[13] != ':') flag = false;
+//		for(int i = 0; i < str.length && flag; i++) {
+//			if((i-1) % 3 == 0 && i != 1) continue;
+//			else if(!Character.isDigit(str[i]))flag = false;
+//		}
 		if(flag){
 			int year =  (str[0] - '0') * 1000 + (str[1] - '0') * 100 +(str[2] - '0') * 10 +(str[3] - '0');
 			int month = (str[5] - '0') * 10 + (str[6] - '0');
